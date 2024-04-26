@@ -13,9 +13,9 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # cargar datos (se tiene en .csv en local)
-df_train=pd.read_csv("dataTrain_carListings/dataTrain_carListings.csv")
+df_train=pd.read_csv("dataTrain_carListings.csv")
 # data test tiene una columna llamada ID, que solamente es el orden de numeros
-df_test=pd.read_csv("dataTest_carListings/dataTest_carListings.csv", index_col=0)
+df_test=pd.read_csv("dataTest_carListings.csv", index_col=0)
 
 # Codificar variables categóricas
 categorical_columns = ['State', 'Make', 'Model']
