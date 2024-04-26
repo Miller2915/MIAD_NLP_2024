@@ -4,6 +4,7 @@ from flask import Flask
 from flask_restx import Api, Resource, fields
 from flask_cors import CORS
 import joblib
+import numpy as np
 import pandas as pd
 from werkzeug.exceptions import BadRequest
 from sklearn.model_selection import train_test_split
