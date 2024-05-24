@@ -28,7 +28,7 @@ resource_fields = api.model('Resource', {
 
 try:
     # Cargar el modelo entrenado de Keras
-    model = load_model('mi_model.keras')
+    model = load_model('model.h5')
     # Asumimos que ya tienes un vectorizer y un scaler guardados
     vectorizer = joblib.load('vectorizer.pkl')
     scaler = joblib.load('scaler.pkl')
