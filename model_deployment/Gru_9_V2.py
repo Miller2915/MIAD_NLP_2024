@@ -8,6 +8,7 @@ from werkzeug.exceptions import BadRequest
 from sklearn.model_selection import train_test_split
 import warnings
 import numpy as np
+import joblib
 warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
