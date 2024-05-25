@@ -30,9 +30,11 @@ resource_fields = api.model('Resource', {
 try:
     # Cargar el modelo entrenado de Keras
     model = load_model('model.h5')
-    # Asumimos que ya tienes un vectorizer y un scaler guardados
+    # Cargar el vectorizador y el escalador
     vectorizer = joblib.load('vectorizer.pkl')
     scaler = joblib.load('scaler.pkl')
+    # Cargar el LabelEncoder o MultiLabelBinarizer
+    le = joblib.load('label_encoder.pkl')  # Asegúrate de tener este archivo y cargarlo aquí
 except Exception as e:
     print(f"Error loading model or other components: {e}")
     raise
@@ -43,10 +45,18 @@ class GenrePredictor(Resource):
     @api.marshal_with(resource_fields)
     def get(self):
         args = parser.parse_args()
-        # Preprocesar los datos de entrada
-        combined_text = args['title'] + " " + args['plot']
+        
+        # Validar y preprocesar los datos de entrada
+        title = args['title']
+        plot = args['plot']
+        year = args['year']
+        
+        if not title or not plot or not year:
+            raise BadRequest('Title, plot, and year are required.')
+
+        combined_text = title + " " + plot
         text_vectorized = vectorizer.transform([combined_text])
-        year_scaled = scaler.transform([[args['year']]])
+        year_scaled = scaler.transform([[year]])
         
         # Preparar la entrada final combinando texto y año
         input_data = np.hstack((text_vectorized.toarray(), year_scaled))
@@ -59,3 +69,4 @@ class GenrePredictor(Resource):
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False, host='0.0.0.0', port=5000)
+
